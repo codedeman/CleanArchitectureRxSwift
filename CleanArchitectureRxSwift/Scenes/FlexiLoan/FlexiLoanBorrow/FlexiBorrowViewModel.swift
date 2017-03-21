@@ -11,13 +11,14 @@ import Domain
 import RxSwift
 import RxCocoa
 
-class FlexBorrowViewModel {
+final class FlexBorrowViewModel {
     init() {
         
     }
 }
 
 extension FlexBorrowViewModel: ViewModelType {
+    
     func transform(input: Input) -> Output {
         let condition = input.amount.map { text -> Bool in
             if text.isEmpty {
