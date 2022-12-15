@@ -58,5 +58,6 @@ final class Application {
 //        cdNavigator.toPosts()
 //        rmNavigator.toPosts()
         flexiRouter.routerToGSXHome()
+//        universityNavigator.routerToNewFeed()
     }
 }

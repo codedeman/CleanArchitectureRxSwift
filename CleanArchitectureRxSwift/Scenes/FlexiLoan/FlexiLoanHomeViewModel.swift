@@ -11,6 +11,10 @@ import Domain
 import RxSwift
 import RxCocoa
 
+struct InterestRate {
+    var offeredInterestRate: Double
+    var offeredEIR: Double
+}
 class HomeViewModel {
     
     private let useCase: PostsUseCase
@@ -33,6 +37,8 @@ extension HomeViewModel: ViewModelType {
     struct Output {
         let flexiModel: Driver<FlexiLoanModel>
         let selectedBorrow: Driver<FlexiLoanModel>
+        let description: Driver<String>
+        let available: Driver<String>
     }
     
     func transform(input: Input) -> Output {
@@ -43,12 +49,13 @@ extension HomeViewModel: ViewModelType {
             return self.useCase.getFlexiLoan().trackError(errorTracker).trackActivity(activityIndicator).asDriverOnErrorJustComplete()
         }
         
+        let description = flexiModel.map {String.init("Interest @ \($0.offeredInterestRate ?? 0.0) % p.a (\($0.offeredEIR ?? 0.0) p.a")}.asDriver()
+        let available = flexiModel.map {String.init("$S \($0.availableLOC?.val ?? 0.0)")}.asDriver()
         let objSelect = flexiModel.asDriver()
-        
         let borrowSelected = input.browerTrigger.withLatestFrom(objSelect).do { obj in
             self.navigator.routerToInputBorrow(flex: obj)
         }
-        return Output.init(flexiModel: flexiModel, selectedBorrow: borrowSelected)
+        return Output.init(flexiModel: flexiModel, selectedBorrow: borrowSelected, description: description , available: available)
     }
 
     

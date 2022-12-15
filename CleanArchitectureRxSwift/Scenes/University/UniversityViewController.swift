@@ -66,7 +66,7 @@ class UniversityViewController: UIViewController {
         let output =  viewModel.transform(input: input)
         output.list.asObservable().bind(to: tableView.rx.items) {(tableView, items, model) in
             guard let cell = tableView.dequeueReusableCell(withIdentifier: MovieTableViewCell.identifier) as? MovieTableViewCell else {return UITableViewCell()}
-            print(Thread.isMainThread)
+//            print(Thread.isMainThread)
             cell.binding(data: model)
             return cell
         }.disposed(by: disposeBag)

@@ -27,9 +27,10 @@ public struct FlexiLoanModel: Codable {
 public struct GSXValue: Codable {
     public var currencyCode: String
     public var val: Double
-    
     public init(currencyCode: String, val: Double) {
         self.currencyCode = currencyCode
         self.val = val
     }
 }
+
+

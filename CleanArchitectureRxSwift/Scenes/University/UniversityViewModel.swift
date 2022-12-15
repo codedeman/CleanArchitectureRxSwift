@@ -38,16 +38,14 @@ class UniversityViewModel: ViewModelType {
         let errorTracker = ErrorTracker()
 
         
-        let listUniversity = input.searchText.map { UniversityRequest(name: $0)}.flatMapLatest { request in
+        let listUniversity = input.searchText.throttle(.microseconds(300)).map { UniversityRequest(name: $0)}.flatMapLatest { request in
+            print("test request \(request)")
             return self.useCase.getList(apiRequest: request).trackActivity(activityIndicator).trackError(errorTracker).asDriverOnErrorJustComplete()
         }
-        
+//
         let selected = input.selection.withLatestFrom(listUniversity) {(indexPath, university) -> UniversityModel in
             return university[indexPath.row]
         }.do {self.navigator.routerToDetail(url: URL(string: $0.webPages?.first ?? "")!)}
-        
-//            .do(onNext: navigator.toPost)
-
         
         
         let errors = errorTracker.asDriver()

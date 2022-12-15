@@ -26,6 +26,8 @@ extension FlexBorrowViewModel: ViewModelType {
                 return Double(text) ?? 0.0 > input.min && Double(text) ?? 0.0 < input.max
             }
         }
+        
+//        let condition = input.amount.com
         return Output.init(valid: condition)
     }
     

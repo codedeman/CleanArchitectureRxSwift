@@ -19,6 +19,10 @@ class FlexiLoanHomeVC: BaseViewController {
     @IBOutlet weak var btnBrower: UIButton!
     private let disposeBag = DisposeBag()
     
+    var gsxValue = PublishSubject<GSXValue>()
+    var flexiModel = PublishSubject<FlexiLoanModel> ()
+    var gxsTest = BehaviorSubject<GSXValue>(value: GSXValue.init(currencyCode: "VNS", val: 1110.0))
+
     var viewModel: HomeViewModel!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,28 +41,25 @@ class FlexiLoanHomeVC: BaseViewController {
     }
     
     private func setUpBinding() {
+        
+        gxsTest.onNext(GSXValue.init(currencyCode: "AU-USD", val: 1001010.0))
+
+        gxsTest.subscribe { print("test --",$0.element?.currencyCode ?? "USD")}
+
+//        Observable.zip(gsxValue, flexiModel,gxsTest).subscribe { gsx, flex, test in
+//            print("gsx value \(gsx.currencyCode) fex \(String(describing: flex.availableLOC?.currencyCode)) \(test.currencyCode)")
+//        }.disposed(by: disposeBag)
+//
+        gsxValue.onNext(GSXValue.init(currencyCode: "USD", val: 200.0))
+        flexiModel.onNext(FlexiLoanModel.init(availableLOC: GSXValue.init(currencyCode: "VND", val: 400.0)))
+        
         let viewDidLoad = rx.sentMessage(#selector(UIViewController.viewDidLayoutSubviews))
             .mapToVoid()
             .asDriverOnErrorJustComplete()
-        
         let input = HomeViewModel.Input(browerTrigger:btnBrower.rx.tap.asDriver().asDriver() , trigger: viewDidLoad.asDriver())
-        
         let output = viewModel.transform(input: input)
-        
-        output.flexiModel.asObservable().subscribe { event in
-            switch event {
-            case .next(let flex):
-                if let val = flex.availableLOC?.val {
-                    self.lblAvailable.text = "$S \(val)"
-                    self.lblInterestRate.text = "Interest @ \(String(describing: flex.offeredInterestRate ?? 0.0)) % p.a (\(flex.offeredEIR ?? 0) p.a .EIR)"
-                }
-            case .error(_):
-                break
-            case .completed:
-                break
-            }
-        }.disposed(by: disposeBag)
-        
+        output.available.drive(lblAvailable.rx.text).disposed(by: disposeBag)
+        output.description.drive(lblInterestRate.rx.text).disposed(by: disposeBag)
         output.selectedBorrow.drive().disposed(by: disposeBag)
     }
 }
