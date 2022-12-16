@@ -12,31 +12,67 @@ import RxSwift
 import RxCocoa
 
 final class FlexBorrowViewModel {
-    init() {
-        
+    private var flexiModel: FlexiLoanModel
+    var subject = PublishSubject<FlexiLoanModel>()
+    private let navigator: FlexiBorrowNavi
+    
+    init(flexiModel: FlexiLoanModel,
+         navigator: FlexiBorrowNavi) {
+        self.flexiModel = flexiModel
+        self.navigator = navigator
     }
 }
 
 extension FlexBorrowViewModel: ViewModelType {
-    
+  
     func transform(input: Input) -> Output {
-        let condition = input.amount.map { text -> Bool in
+        
+        let decs = input.trigger
+            .flatMapLatest  { [unowned self] in
+                return PublishSubject<String>.just("Enter an amount between S$\(flexiModel.min?.val ?? 0.0) and S$ \(flexiModel.max?.val ?? 0.0)").asDriverOnErrorJustComplete()
+            }
+        
+        let condition = input.amount.map { [weak self] text -> Bool in
+            guard let wSelf = self else {return false}
             if text.isEmpty {
                 return true
             } else {
-                return Double(text) ?? 0.0 > input.min && Double(text) ?? 0.0 < input.max
+                if Double(text) ?? 0.0 > wSelf.flexiModel.min?.val ?? 0.0 && Double(text) ?? 0.0 < wSelf.flexiModel.max?.val ?? 0.0 {
+                    wSelf.flexiModel.availableLOC?.setVal(val: Double(text) ?? 0.0)
+                    wSelf.subject.onNext(wSelf.flexiModel)
+                    return true
+                } else {
+                    return false
+                }
             }
         }
-        return Output.init(valid: condition)
+        
+        let trigger = input.backTrigger.do {
+            self.navigator.toFlexiGXSHome()
+        }
+//        let trigger =  input.backTrigger.withLatestFrom(subject.asDriverOnErrorJustComplete()).do {  [weak self]  obj in
+//            guard let self = self else {return}
+//            self.navigator.toFlexiGXSHome()
+//        }
+        
+//        let borrowSelected = input
+//            .browerTrigger
+//            .withLatestFrom(objSelect).do { [weak self] obj in
+//                guard let wSelf = self else {return }
+//                wSelf.navigator.toInputBorrow(flex: obj)
+//        }
+        
+        return Output.init(valid: condition, desc: decs)
     }
     
     struct Input {
-        let amount: Driver<String>
-        var min: Double
-        var max: Double
+        var trigger: Driver<Void>
+        var amount: Driver<String>
+        var backTrigger: Driver<Void>
     }
     
     struct Output {
         let valid: Driver<Bool>
+        var desc: Driver<String>
     }
 }

@@ -11,37 +11,61 @@ import Domain
 import RxSwift
 import RxCocoa
 
-class FlexiBorrowViewController: BaseViewController {
+class FlexiBorrowViewController: BaseViewController{
 
     @IBOutlet weak private var txtInputAmount: UITextField!
     @IBOutlet weak private var lblDescription: UILabel!
     
-    var flexiModel: FlexiLoanModel?
-    var viewModel =  FlexBorrowViewModel()
+    var viewModel: FlexBorrowViewModel!
     private let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setUpUi()
         self.setUpBindModel()
-        // Do any additional setup after loading the view.
+    }
+    
+    @objc func back() {
+        self.navigationController?.popViewController(animated: true)
+    }
+//    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
     }
     
     private func setUpUi() {
         self.txtInputAmount.keyboardType = .numberPad
-        self.lblDescription.text = "Enter an amount between S$\(flexiModel?.min?.val ?? 0.0) and S$ \(flexiModel?.max?.val ?? 0.0)"
     }
     
     private func setUpBindModel() {
-        let input =  FlexBorrowViewModel.Input(amount: txtInputAmount.rx.text.orEmpty.asDriver(),min: flexiModel?.min?.val ?? 0.0, max: flexiModel?.max?.val ?? 0.0)
+        self.navigationItem.hidesBackButton = true
+        var customBackButton = UIBarButtonItem(title: "Back", style: .done,
+                                               target: nil, action: nil)
+        navigationItem.leftBarButtonItem = customBackButton
         
+        
+        let backTrigger = customBackButton.rx.tap.asDriver()
+        
+        backTrigger.asObservable().subscribe { [weak self] event in
+            guard let self = self, let vc = self.navigationController?.viewControllers.first as? FlexiLoanHomeVC else {return}
+            vc.sub.accept(self.txtInputAmount.text ?? "")
+            self.navigationController?.popToViewController(vc, animated: true)
+        }.disposed(by: disposeBag)
+        
+        let viewDidLoad = rx.sentMessage(#selector(UIViewController.viewDidLayoutSubviews))
+            .mapToVoid()
+            .asDriverOnErrorJustComplete()
+        
+        let input =  FlexBorrowViewModel.Input(trigger:viewDidLoad,
+                                               amount: txtInputAmount.rx.text.orEmpty.asDriver(), backTrigger: backTrigger)
         let output = viewModel.transform(input: input)
-        
-        output.valid
-            .asObservable()
-            .subscribe { isValid in
+        output.desc.drive(lblDescription.rx.text).disposed(by: disposeBag)
+
+        output.valid.drive { [weak self] isValid in
+            guard let self = self else {return}
             self.lblDescription.textColor =  isValid ? .white : .red
         }.disposed(by: disposeBag)
+        
     }
 
 }

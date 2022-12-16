@@ -4,8 +4,8 @@ import RxSwift
 import RxCocoa
 
 class PostsViewController: UIViewController {
-    private let disposeBag = DisposeBag()
     
+    private let disposeBag = DisposeBag()
     var viewModel: PostsViewModel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var createPostButton: UIBarButtonItem!

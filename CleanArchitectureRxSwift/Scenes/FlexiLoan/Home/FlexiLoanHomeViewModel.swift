@@ -11,17 +11,17 @@ import Domain
 import RxSwift
 import RxCocoa
 
-final class HomeViewModel {
+final class FlexiHomeViewModel {
     private let useCase: PostsUseCase
-    private let navigator: HomeRouterProtocol
+    private let navigator: HomeNaviProtocol
     
-    init(useCase: PostsUseCase, navigator: HomeRouterProtocol) {
+    init(useCase: PostsUseCase, navigator: HomeNaviProtocol) {
         self.useCase = useCase
         self.navigator = navigator
     }
 }
 
-extension HomeViewModel: ViewModelType {
+extension FlexiHomeViewModel: ViewModelType {
     
     struct Input {
         let browerTrigger: Driver<Void>
@@ -36,10 +36,10 @@ extension HomeViewModel: ViewModelType {
     }
     
     func transform(input: Input) -> Output {
+        
         let activityIndicator = ActivityIndicator()
         let errorTracker = ErrorTracker()
-        
-        let flexiModel = input.trigger.flatMapLatest {
+        let flexiModel = input.trigger.flatMapLatest  { [unowned self] in
             return self.useCase
                 .getFlexiLoan()
                 .trackError(errorTracker)
@@ -59,12 +59,12 @@ extension HomeViewModel: ViewModelType {
         
         let borrowSelected = input
             .browerTrigger
-            .withLatestFrom(objSelect).do { obj in
-            self.navigator.routerToInputBorrow(flex: obj)
+            .withLatestFrom(objSelect).do { [weak self] obj in
+                guard let wSelf = self else {return }
+                wSelf.navigator.toInputBorrow(flex: obj)
         }
         
         return Output.init(flexiModel: flexiModel, selectedBorrow: borrowSelected, description: description , available: available)
     }
-
     
 }
