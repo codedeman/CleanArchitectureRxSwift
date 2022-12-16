@@ -53,11 +53,11 @@ final class Application {
         ]
         
         let universityNavigator = DefaultUniversityNavigator(navigationController: networkNavigationController, service: networkUseCaseProvider)
-        let flexiRouter = HomeRouter(services: networkUseCaseProvider, navigationController: networkNavigationController)
+        let flexiRouter = HomeNavigator(services: networkUseCaseProvider, navigationController: networkNavigationController)
         window.rootViewController = networkNavigationController
+        flexiRouter.toGSXHome()
 //        cdNavigator.toPosts()
 //        rmNavigator.toPosts()
-        flexiRouter.routerToGSXHome()
-//        universityNavigator.routerToNewFeed()
+//        networkNavigator.toPosts()
     }
 }

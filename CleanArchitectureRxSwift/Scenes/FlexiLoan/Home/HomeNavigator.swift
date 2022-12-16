@@ -9,12 +9,13 @@
 import Foundation
 import Domain
 
-protocol HomeRouterProtocol: AnyObject {
-    func routerToGSXHome()
-    func routerToInputBorrow(flex: FlexiLoanModel)
+protocol HomeNaviProtocol: AnyObject {
+    func toGSXHome()
+    func toInputBorrow(flex: FlexiLoanModel)
+    
 }
 
-class HomeRouter: HomeRouterProtocol {
+class HomeNavigator: HomeNaviProtocol {
     
     private let navigationController: UINavigationController
     private let services: UseCaseProvider
@@ -25,15 +26,16 @@ class HomeRouter: HomeRouterProtocol {
         self.navigationController = navigationController
     }
     
-    func routerToGSXHome() {
+    func toGSXHome() {
         let vc = FlexiLoanHomeVC(nibName: "FlexiLoanHomeVC", bundle: .main)
         vc.viewModel = .init(useCase: services.makePostsUseCase(), navigator: self)
         self.navigationController.pushViewController(vc, animated: true)
     }
     
-    func routerToInputBorrow(flex: FlexiLoanModel) {
+    func toInputBorrow(flex: FlexiLoanModel) {
+        let flexNav = FlexiBorrowNavi.init(navigationController: self.navigationController)
         let vc = FlexiBorrowViewController(nibName: "FlexiBorrowViewController", bundle: .main)
-        vc.flexiModel = flex
+        vc.viewModel = FlexBorrowViewModel.init(flexiModel: flex, navigator: flexNav)
         navigationController.pushViewController(vc, animated: true)
     }
    

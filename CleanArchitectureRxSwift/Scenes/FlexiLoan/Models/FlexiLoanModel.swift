@@ -16,6 +16,7 @@ public struct FlexiLoanModel: Codable {
     public var max: GSXValue?
     
     public init(availableLOC: GSXValue? = nil, offeredInterestRate: Double? = nil, offeredEIR: Double? = nil, min: GSXValue? = nil, max: GSXValue? = nil) {
+
         self.availableLOC = availableLOC
         self.offeredInterestRate = offeredInterestRate
         self.offeredEIR = offeredEIR
@@ -27,8 +28,13 @@ public struct FlexiLoanModel: Codable {
 public struct GSXValue: Codable {
     public var currencyCode: String
     public var val: Double
+    
     public init(currencyCode: String, val: Double) {
         self.currencyCode = currencyCode
+        self.val = val
+    }
+    
+    public mutating func setVal(val: Double) {
         self.val = val
     }
 }

@@ -3,6 +3,7 @@ import RxSwift
 import Domain
 
 class PostsUseCaseMock: Domain.PostsUseCase {
+    
     func getList(apiRequest: Domain.APIRequest) -> RxSwift.Observable<[Domain.UniversityModel]> {
         return .just([])
     }
@@ -11,12 +12,13 @@ class PostsUseCaseMock: Domain.PostsUseCase {
         return .just(FlexiLoanModel.init())
     }
     
-  var posts_ReturnValue: Observable<[Post]> = Observable.just([])
-  var posts_Called = false
-  var save_ReturnValue: Observable<Void> = Observable.just(())
-  var save_Called = false
-  var delete_ReturnValue: Observable<Void> = Observable.just(())
-  var delete_Called = false
+    var posts_ReturnValue: Observable<[Post]> = Observable.just([])
+    var interest_rateValue: Observable<FlexiLoanModel> = Observable.just(FlexiLoanModel.init())
+    var posts_Called = false
+    var save_ReturnValue: Observable<Void> = Observable.just(())
+    var save_Called = false
+    var delete_ReturnValue: Observable<Void> = Observable.just(())
+    var delete_Called = false
 
   func posts() -> Observable<[Post]> {
     posts_Called = true
@@ -32,4 +34,5 @@ class PostsUseCaseMock: Domain.PostsUseCase {
     delete_Called = true
     return delete_ReturnValue
   }
+    
 }
