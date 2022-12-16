@@ -11,12 +11,7 @@ import Domain
 import RxSwift
 import RxCocoa
 
-struct InterestRate {
-    var offeredInterestRate: Double
-    var offeredEIR: Double
-}
-class HomeViewModel {
-    
+final class HomeViewModel {
     private let useCase: PostsUseCase
     private let navigator: HomeRouterProtocol
     
@@ -24,7 +19,6 @@ class HomeViewModel {
         self.useCase = useCase
         self.navigator = navigator
     }
-    
 }
 
 extension HomeViewModel: ViewModelType {
@@ -46,15 +40,29 @@ extension HomeViewModel: ViewModelType {
         let errorTracker = ErrorTracker()
         
         let flexiModel = input.trigger.flatMapLatest {
-            return self.useCase.getFlexiLoan().trackError(errorTracker).trackActivity(activityIndicator).asDriverOnErrorJustComplete()
+            return self.useCase
+                .getFlexiLoan()
+                .trackError(errorTracker)
+                .trackActivity(activityIndicator)
+                .asDriverOnErrorJustComplete()
         }
         
-        let description = flexiModel.map {String.init("Interest @ \($0.offeredInterestRate ?? 0.0) % p.a (\($0.offeredEIR ?? 0.0) p.a")}.asDriver()
-        let available = flexiModel.map {String.init("$S \($0.availableLOC?.val ?? 0.0)")}.asDriver()
+        let description = flexiModel
+            .map {String.init("Interest @ \($0.offeredInterestRate ?? 0.0) % p.a (\($0.offeredEIR ?? 0.0) p.a")}
+            .asDriver()
+        
+        let available = flexiModel
+            .map {String.init("$S \($0.availableLOC?.val ?? 0.0)")}
+            .asDriver()
+        
         let objSelect = flexiModel.asDriver()
-        let borrowSelected = input.browerTrigger.withLatestFrom(objSelect).do { obj in
+        
+        let borrowSelected = input
+            .browerTrigger
+            .withLatestFrom(objSelect).do { obj in
             self.navigator.routerToInputBorrow(flex: obj)
         }
+        
         return Output.init(flexiModel: flexiModel, selectedBorrow: borrowSelected, description: description , available: available)
     }
 

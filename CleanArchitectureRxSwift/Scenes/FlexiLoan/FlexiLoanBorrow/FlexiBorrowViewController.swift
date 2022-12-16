@@ -34,9 +34,12 @@ class FlexiBorrowViewController: BaseViewController {
     
     private func setUpBindModel() {
         let input =  FlexBorrowViewModel.Input(amount: txtInputAmount.rx.text.orEmpty.asDriver(),min: flexiModel?.min?.val ?? 0.0, max: flexiModel?.max?.val ?? 0.0)
+        
         let output = viewModel.transform(input: input)
         
-        output.valid.asObservable().subscribe { isValid in
+        output.valid
+            .asObservable()
+            .subscribe { isValid in
             self.lblDescription.textColor =  isValid ? .white : .red
         }.disposed(by: disposeBag)
     }
