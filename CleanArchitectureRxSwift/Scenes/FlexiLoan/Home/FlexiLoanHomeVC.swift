@@ -20,6 +20,7 @@ class FlexiLoanHomeVC: BaseViewController {
     @IBOutlet weak var btnBrower: UIButton!
     private let disposeBag = DisposeBag()
     var viewModel: FlexiHomeViewModel!
+    var avoidReload: Bool = false
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setUpBinding()
@@ -29,25 +30,39 @@ class FlexiLoanHomeVC: BaseViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        viewModel.sub.subscribe { [weak self] text in
-            self?.lblAvailable.text = text
-        }.disposed(by: disposeBag)
+        
+//        viewModel.sub.asObservable() = Observable<String>.just("KK")
+        
+        viewModel.sub.asObservable().subscribe { event in
+            switch event {
+            case .next(let text):
+                self.lblAvailable.text = text
+                self.avoidReload = true
+            case .error(_):
+                break
+            case .completed:
+                break
+
+            }
+        }
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        sub.asDriverOnErrorJustComplete().drive(lblAvailable.rx.text).disposed(by: disposeBag)
     }
     
     private func setUpBinding() {
+      
         let viewDidLoad = rx
-            .sentMessage(#selector(UIViewController.viewDidLayoutSubviews))
+            .sentMessage(#selector(UIViewController.viewDidLoad))
             .mapToVoid()
             .asDriverOnErrorJustComplete()
         
         let input = FlexiHomeViewModel.Input(browerTrigger:btnBrower.rx.tap.asDriver().asDriver(), trigger: viewDidLoad.asDriver())
         let output = viewModel.transform(input: input)
         
+      
         output.available
             .drive(lblAvailable.rx.text)
             .disposed(by: disposeBag)
@@ -63,6 +78,8 @@ class FlexiLoanHomeVC: BaseViewController {
         output.available
             .drive(lblAvailable.rx.text)
             .disposed(by: disposeBag)
+        
+       
         
     }
     

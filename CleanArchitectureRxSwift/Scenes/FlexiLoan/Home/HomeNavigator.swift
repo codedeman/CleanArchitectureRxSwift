@@ -8,14 +8,24 @@
 
 import Foundation
 import Domain
+import RxSwift
+import RxCocoa
 
 protocol HomeNaviProtocol: AnyObject {
     func toGSXHome()
-    func toInputBorrow(flex: FlexiLoanModel)
+    func toInputBorrow(flex: FlexiLoanModel, replaySb: PublishSubject<String>)
     
 }
 
 class HomeNavigator: HomeNaviProtocol {
+    func toInputBorrow(flex: Domain.FlexiLoanModel, replaySb: PublishSubject<String>) {
+        let flexNav = FlexiBorrowNavi.init(navigationController: self.navigationController)
+        let vc = FlexiBorrowViewController(nibName: "FlexiBorrowViewController", bundle: .main)
+        vc.viewModel = FlexBorrowViewModel.init(flexiModel: flex, navigator: flexNav)
+        vc.viewModel.subject = replaySb
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
     
     private let navigationController: UINavigationController
     private let services: UseCaseProvider

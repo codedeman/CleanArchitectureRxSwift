@@ -13,7 +13,7 @@ import RxCocoa
 
 final class FlexBorrowViewModel {
     private var flexiModel: FlexiLoanModel
-    public  var subject = PublishSubject<FlexiLoanModel>()
+    public  var subject = PublishSubject<String>()
     private let navigator: FlexiBorrowNavi
     
     init(flexiModel: FlexiLoanModel,
@@ -39,23 +39,16 @@ extension FlexBorrowViewModel: ViewModelType {
             } else {
                 if Double(text) ?? 0.0 > wSelf.flexiModel.min?.val ?? 0.0
                     && Double(text) ?? 0.0 < wSelf.flexiModel.max?.val ?? 0.0 {
-                    
+                    wSelf.subject.onNext(text)
                     wSelf.flexiModel.availableLOC?.setVal(val: Double(text) ?? 0.0)
-                    wSelf.subject.onNext(wSelf.flexiModel)
                     return true
                 } else {
                     return false
                 }
             }
         }
-        
-        let trigger = input.backTrigger
-            .withLatestFrom(subject.asDriverOnErrorJustComplete())
-            .do {  [weak self]  obj in
-            guard let self = self else {return}
-            self.navigator.toFlexiGXSHome(flexiObj: obj)
-        }
-        return Output.init(valid: condition, desc: decs, flexiModel: trigger.asDriverOnErrorJustComplete())
+        let trigger = input.backTrigger.do(onNext: navigator.toFlexiGXSHome).asDriverOnErrorJustComplete()
+        return Output.init(valid: condition, desc: decs, flexiModel: trigger)
     }
     
     struct Input {
@@ -67,6 +60,6 @@ extension FlexBorrowViewModel: ViewModelType {
     struct Output {
         let valid: Driver<Bool>
         var desc: Driver<String>
-        var flexiModel: Driver<FlexiLoanModel>
+        var flexiModel: Driver<Void>
     }
 }

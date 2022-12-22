@@ -46,12 +46,6 @@ class FlexiBorrowViewController: BaseViewController{
         
         let backTrigger = customBackButton.rx.tap.asObservable()
         
-//        backTrigger.asObservable().subscribe { [weak self] event in
-//            guard let self = self, let vc = self.navigationController?.viewControllers.first as? FlexiLoanHomeVC else {return}
-//            vc.sub.accept(self.txtInputAmount.text ?? "")
-//            self.navigationController?.popToViewController(vc, animated: true)
-//        }.disposed(by: disposeBag)
-        
         let viewDidLoad = rx.sentMessage(#selector(UIViewController.viewDidLayoutSubviews))
             .mapToVoid()
             .asDriverOnErrorJustComplete()

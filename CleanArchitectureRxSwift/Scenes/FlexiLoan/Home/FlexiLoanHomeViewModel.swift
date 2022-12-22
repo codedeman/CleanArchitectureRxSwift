@@ -14,9 +14,7 @@ import RxCocoa
 final class FlexiHomeViewModel {
     private let useCase: PostsUseCase
     private let navigator: HomeNaviProtocol
-    var sub = ReplaySubject<String>.create(bufferSize: 2)
-    
-//    BehaviorRelay<String>(value: "")
+    var sub = PublishSubject<String>()
 
     init(useCase: PostsUseCase, navigator: HomeNaviProtocol) {
         self.useCase = useCase
@@ -42,30 +40,28 @@ extension FlexiHomeViewModel: ViewModelType {
         
         let activityIndicator = ActivityIndicator()
         let errorTracker = ErrorTracker()
-        let flexiModel = input.trigger.flatMapLatest  { [unowned self] in
-            return self.useCase
+            let flexiModel =  useCase
                 .getFlexiLoan()
                 .trackError(errorTracker)
                 .trackActivity(activityIndicator)
                 .asDriverOnErrorJustComplete()
-        }
         
         let description = flexiModel
             .map {String.init("Interest @ \($0.offeredInterestRate ?? 0.0) % p.a (\($0.offeredEIR ?? 0.0) p.a")}
             .asDriver()
         
-        let available = flexiModel
-            .map {String.init("$S \($0.availableLOC?.val ?? 0.0)")}
+        var available = flexiModel
+            .map {
+                String.init("$S \($0.availableLOC?.val ?? 0.0)")}
             .asDriver()
-//        self.sub.accept()
-        
+
         let objSelect = flexiModel.asDriver()
-        
+    
         let borrowSelected = input
             .browerTrigger
             .withLatestFrom(objSelect).do { [weak self] obj in
                 guard let wSelf = self else {return }
-                wSelf.navigator.toInputBorrow(flex: obj)
+                wSelf.navigator.toInputBorrow(flex: obj, replaySb: wSelf.sub)
         }
         
         return Output.init(flexiModel: flexiModel, selectedBorrow: borrowSelected, description: description , available: available)

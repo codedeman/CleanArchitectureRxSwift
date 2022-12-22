@@ -5,7 +5,7 @@ var greeting = "Hello, playground"
 
 struct Student {
     var name: String
-    var score: Variable<Int>
+//    var score: Variable<Int>
 }
 
 print("hello")
