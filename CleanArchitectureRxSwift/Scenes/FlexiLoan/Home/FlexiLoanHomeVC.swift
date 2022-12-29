@@ -32,24 +32,25 @@ class FlexiLoanHomeVC: BaseViewController {
         super.viewDidLayoutSubviews()
         
 //        viewModel.sub.asObservable() = Observable<String>.just("KK")
-        
-        viewModel.sub.asObservable().subscribe { event in
-            switch event {
-            case .next(let text):
-                self.lblAvailable.text = text
-                self.avoidReload = true
-            case .error(_):
-                break
-            case .completed:
-                break
-
-            }
-        }
+//
+//        viewModel.sub.asObservable().subscribe { event in
+//            switch event {
+//            case .next(let text):
+//                self.lblAvailable.text = text
+//                self.avoidReload = true
+//            case .error(_):
+//                break
+//            case .completed:
+//                break
+//
+//            }
+//        }
 
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
     private func setUpBinding() {

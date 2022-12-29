@@ -7,11 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A2348D1295835E00084A1ED /* HomeNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2348CC295835E00084A1ED /* HomeNavigator.swift */; };
+		0A2348D2295835E00084A1ED /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2348CD295835E00084A1ED /* HomeViewController.swift */; };
+		0A2348D4295835E00084A1ED /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2348CF295835E00084A1ED /* HomeViewModel.swift */; };
+		0A2348D5295835E00084A1ED /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A2348D0295835E00084A1ED /* HomeViewController.xib */; };
 		0A27587E29498038002B8FF5 /* FlexiLoanModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A27587B29497EBE002B8FF5 /* FlexiLoanModel.swift */; };
 		0A2758852949BDAA002B8FF5 /* FlexiBorrowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2758832949BDAA002B8FF5 /* FlexiBorrowViewController.swift */; };
 		0A2758862949BDAA002B8FF5 /* FlexiBorrowViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A2758842949BDAA002B8FF5 /* FlexiBorrowViewController.xib */; };
 		0A2758882949C506002B8FF5 /* FlexiBorrowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2758872949C506002B8FF5 /* FlexiBorrowViewModel.swift */; };
 		0A2758912949F172002B8FF5 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2758902949F172002B8FF5 /* BaseViewController.swift */; };
+		0A2B5728295D6C84001F2B94 /* HomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2B5727295D6C84001F2B94 /* HomeModel.swift */; };
+		0A2B572E295D7832001F2B94 /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2B572D295D7832001F2B94 /* HomeCollectionViewCell.swift */; };
+		0A2B5731295D7D18001F2B94 /* HomeHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2B5730295D7D18001F2B94 /* HomeHeader.swift */; };
+		0A2B5733295DC79F001F2B94 /* HomeBannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2B5732295DC79F001F2B94 /* HomeBannerCell.swift */; };
 		0A56DD532948374300AFD75B /* UniversityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A56DD512948374300AFD75B /* UniversityViewController.swift */; };
 		0A56DD542948374300AFD75B /* UniversityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A56DD522948374300AFD75B /* UniversityViewController.xib */; };
 		0A56DD572948377100AFD75B /* MovieTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A56DD552948377100AFD75B /* MovieTableViewCell.xib */; };
@@ -24,11 +32,16 @@
 		0A56DD682949749A00AFD75B /* FlexiLoanHomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A56DD662949749A00AFD75B /* FlexiLoanHomeVC.swift */; };
 		0A56DD692949749A00AFD75B /* FlexiLoanHomeVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A56DD672949749A00AFD75B /* FlexiLoanHomeVC.xib */; };
 		0A56DD6B294977CA00AFD75B /* FlexiLoanHomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A56DD6A294977CA00AFD75B /* FlexiLoanHomeViewModel.swift */; };
-		0A91626A2951EA920068A325 /* HomeNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9162692951EA920068A325 /* HomeNavigator.swift */; };
+		0A90CAAD29583CFC00C7E4FC /* HomNaviView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A90CAAC29583CFC00C7E4FC /* HomNaviView.swift */; };
+		0A90CAB0295844A100C7E4FC /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A90CAAF295844A100C7E4FC /* HomeTableViewCell.swift */; };
+		0A91626A2951EA920068A325 /* FlexiHomeNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9162692951EA920068A325 /* FlexiHomeNavigator.swift */; };
 		0A91626C2952E2240068A325 /* FlexiBorrowNavi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A91626B2952E2240068A325 /* FlexiBorrowNavi.swift */; };
 		0ACEA02E294C236600F89F22 /* FlexiModelTesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACEA02D294C236600F89F22 /* FlexiModelTesting.swift */; };
 		0ACEA030294C25F500F89F22 /* FlexiRouterMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACEA02F294C25F500F89F22 /* FlexiRouterMock.swift */; };
 		0ACEA033294C5E9D00F89F22 /* FlexiBorrowTesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACEA032294C5E9D00F89F22 /* FlexiBorrowTesting.swift */; };
+		0AE780C2295C43E30068C39C /* AppStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE780C1295C43E30068C39C /* AppStep.swift */; };
+		0AE780C4295C44200068C39C /* AppStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE780C3295C44200068C39C /* AppStepper.swift */; };
+		0AE780C6295C4A6F0068C39C /* AppFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE780C5295C4A6F0068C39C /* AppFlow.swift */; };
 		2526A7141E59F8260078870E /* ErrorTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2526A7131E59F8260078870E /* ErrorTracker.swift */; };
 		2526A7161E5A2CD30078870E /* EditPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2526A7151E5A2CD30078870E /* EditPostViewController.swift */; };
 		256289FC1E91829500A7731C /* UseCaseProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256289FB1E91829500A7731C /* UseCaseProvider.swift */; };
@@ -282,12 +295,20 @@
 		07BECD54B799E689F7DF0941 /* Pods-Domain.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Domain.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Domain/Pods-Domain.debug.xcconfig"; sourceTree = "<group>"; };
 		081D23F2DCF9DBA930AB0FE7 /* Pods-RealmPlatform.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RealmPlatform.release.xcconfig"; path = "Pods/Target Support Files/Pods-RealmPlatform/Pods-RealmPlatform.release.xcconfig"; sourceTree = "<group>"; };
 		09A6B74019E724CAD9CA96DC /* Pods_CleanArchitectureRxSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CleanArchitectureRxSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0A2348CC295835E00084A1ED /* HomeNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNavigator.swift; sourceTree = "<group>"; };
+		0A2348CD295835E00084A1ED /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		0A2348CF295835E00084A1ED /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		0A2348D0295835E00084A1ED /* HomeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
 		0A27587B29497EBE002B8FF5 /* FlexiLoanModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlexiLoanModel.swift; sourceTree = "<group>"; };
 		0A2758812949AC38002B8FF5 /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		0A2758832949BDAA002B8FF5 /* FlexiBorrowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlexiBorrowViewController.swift; sourceTree = "<group>"; };
 		0A2758842949BDAA002B8FF5 /* FlexiBorrowViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FlexiBorrowViewController.xib; sourceTree = "<group>"; };
 		0A2758872949C506002B8FF5 /* FlexiBorrowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlexiBorrowViewModel.swift; sourceTree = "<group>"; };
 		0A2758902949F172002B8FF5 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		0A2B5727295D6C84001F2B94 /* HomeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModel.swift; sourceTree = "<group>"; };
+		0A2B572D295D7832001F2B94 /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
+		0A2B5730295D7D18001F2B94 /* HomeHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeader.swift; sourceTree = "<group>"; };
+		0A2B5732295DC79F001F2B94 /* HomeBannerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBannerCell.swift; sourceTree = "<group>"; };
 		0A56DD512948374300AFD75B /* UniversityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversityViewController.swift; sourceTree = "<group>"; };
 		0A56DD522948374300AFD75B /* UniversityViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UniversityViewController.xib; sourceTree = "<group>"; };
 		0A56DD552948377100AFD75B /* MovieTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MovieTableViewCell.xib; sourceTree = "<group>"; };
@@ -300,11 +321,16 @@
 		0A56DD662949749A00AFD75B /* FlexiLoanHomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlexiLoanHomeVC.swift; sourceTree = "<group>"; };
 		0A56DD672949749A00AFD75B /* FlexiLoanHomeVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FlexiLoanHomeVC.xib; sourceTree = "<group>"; };
 		0A56DD6A294977CA00AFD75B /* FlexiLoanHomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlexiLoanHomeViewModel.swift; sourceTree = "<group>"; };
-		0A9162692951EA920068A325 /* HomeNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeNavigator.swift; sourceTree = "<group>"; };
+		0A90CAAC29583CFC00C7E4FC /* HomNaviView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomNaviView.swift; sourceTree = "<group>"; };
+		0A90CAAF295844A100C7E4FC /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
+		0A9162692951EA920068A325 /* FlexiHomeNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlexiHomeNavigator.swift; sourceTree = "<group>"; };
 		0A91626B2952E2240068A325 /* FlexiBorrowNavi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlexiBorrowNavi.swift; sourceTree = "<group>"; };
 		0ACEA02D294C236600F89F22 /* FlexiModelTesting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlexiModelTesting.swift; sourceTree = "<group>"; };
 		0ACEA02F294C25F500F89F22 /* FlexiRouterMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlexiRouterMock.swift; sourceTree = "<group>"; };
 		0ACEA032294C5E9D00F89F22 /* FlexiBorrowTesting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlexiBorrowTesting.swift; sourceTree = "<group>"; };
+		0AE780C1295C43E30068C39C /* AppStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStep.swift; sourceTree = "<group>"; };
+		0AE780C3295C44200068C39C /* AppStepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStepper.swift; sourceTree = "<group>"; };
+		0AE780C5295C4A6F0068C39C /* AppFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlow.swift; sourceTree = "<group>"; };
 		0D4A3B45078CD8ACCC1314EC /* Pods-RealmPlatformTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RealmPlatformTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-RealmPlatformTests/Pods-RealmPlatformTests.release.xcconfig"; sourceTree = "<group>"; };
 		2526A7131E59F8260078870E /* ErrorTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorTracker.swift; sourceTree = "<group>"; };
 		2526A7151E5A2CD30078870E /* EditPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPostViewController.swift; sourceTree = "<group>"; };
@@ -567,6 +593,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A2348CB2955A38E0084A1ED /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				0A2B572F295D7D04001F2B94 /* Header */,
+				0A2B5726295D6C72001F2B94 /* Models */,
+				0A90CAAE2958447F00C7E4FC /* Cell */,
+				0A90CAAB29583CE300C7E4FC /* NaviView */,
+				0A2348CC295835E00084A1ED /* HomeNavigator.swift */,
+				0A2348CD295835E00084A1ED /* HomeViewController.swift */,
+				0A2348CF295835E00084A1ED /* HomeViewModel.swift */,
+				0A2348D0295835E00084A1ED /* HomeViewController.xib */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
 		0A27587D29497EC7002B8FF5 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -584,6 +625,22 @@
 				0A91626B2952E2240068A325 /* FlexiBorrowNavi.swift */,
 			);
 			path = FlexiLoanBorrow;
+			sourceTree = "<group>";
+		};
+		0A2B5726295D6C72001F2B94 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0A2B5727295D6C84001F2B94 /* HomeModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		0A2B572F295D7D04001F2B94 /* Header */ = {
+			isa = PBXGroup;
+			children = (
+				0A2B5730295D7D18001F2B94 /* HomeHeader.swift */,
+			);
+			path = Header;
 			sourceTree = "<group>";
 		};
 		0A56DD502948372500AFD75B /* University */ = {
@@ -618,10 +675,28 @@
 			children = (
 				0A56DD662949749A00AFD75B /* FlexiLoanHomeVC.swift */,
 				0A56DD672949749A00AFD75B /* FlexiLoanHomeVC.xib */,
-				0A9162692951EA920068A325 /* HomeNavigator.swift */,
+				0A9162692951EA920068A325 /* FlexiHomeNavigator.swift */,
 				0A56DD6A294977CA00AFD75B /* FlexiLoanHomeViewModel.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		0A90CAAB29583CE300C7E4FC /* NaviView */ = {
+			isa = PBXGroup;
+			children = (
+				0A90CAAC29583CFC00C7E4FC /* HomNaviView.swift */,
+			);
+			path = NaviView;
+			sourceTree = "<group>";
+		};
+		0A90CAAE2958447F00C7E4FC /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				0A90CAAF295844A100C7E4FC /* HomeTableViewCell.swift */,
+				0A2B572D295D7832001F2B94 /* HomeCollectionViewCell.swift */,
+				0A2B5732295DC79F001F2B94 /* HomeBannerCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		0ACEA02C294C232D00F89F22 /* Flexiloan */ = {
@@ -923,6 +998,9 @@
 			isa = PBXGroup;
 			children = (
 				25897BE21E58CB8E00D3563C /* Application.swift */,
+				0AE780C1295C43E30068C39C /* AppStep.swift */,
+				0AE780C3295C44200068C39C /* AppStepper.swift */,
+				0AE780C5295C4A6F0068C39C /* AppFlow.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -949,6 +1027,7 @@
 		515F903025B664C6A43D7962 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				0A2348CB2955A38E0084A1ED /* Home */,
 				0A56DD652949742C00AFD75B /* FlexiLoan */,
 				0A56DD502948372500AFD75B /* University */,
 				515F94479B9C0EF5329F9428 /* AllPosts */,
@@ -1492,6 +1571,8 @@
 				Base,
 			);
 			mainGroup = 25897AF71E58BD9100D3563C;
+			packageReferences = (
+			);
 			productRefGroup = 25897B011E58BD9100D3563C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1522,6 +1603,7 @@
 				0A56DD542948374300AFD75B /* UniversityViewController.xib in Resources */,
 				25897B091E58BD9100D3563C /* Main.storyboard in Resources */,
 				0A2758862949BDAA002B8FF5 /* FlexiBorrowViewController.xib in Resources */,
+				0A2348D5295835E00084A1ED /* HomeViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1881,12 +1963,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A56DD6429486AD000AFD75B /* UniversityRequest.swift in Sources */,
+				0AE780C2295C43E30068C39C /* AppStep.swift in Sources */,
+				0A2348D4295835E00084A1ED /* HomeViewModel.swift in Sources */,
 				25897BFB1E58CB8F00D3563C /* Reusable.swift in Sources */,
 				25897BF21E58CB8E00D3563C /* Application.swift in Sources */,
 				25897BF91E58CB8F00D3563C /* Observable+Ext.swift in Sources */,
 				25897BF71E58CB8F00D3563C /* ActivityIndicator.swift in Sources */,
 				0A2758852949BDAA002B8FF5 /* FlexiBorrowViewController.swift in Sources */,
+				0A90CAAD29583CFC00C7E4FC /* HomNaviView.swift in Sources */,
 				25897B041E58BD9100D3563C /* AppDelegate.swift in Sources */,
+				0A2B5731295D7D18001F2B94 /* HomeHeader.swift in Sources */,
 				2526A7141E59F8260078870E /* ErrorTracker.swift in Sources */,
 				0A2758882949C506002B8FF5 /* FlexiBorrowViewModel.swift in Sources */,
 				25897BFC1E58CB8F00D3563C /* ViewModelType.swift in Sources */,
@@ -1894,19 +1980,27 @@
 				515F977483234BB090F6D704 /* PostsViewController.swift in Sources */,
 				515F9083DB52FEDFEE97A5E6 /* PostsViewModel.swift in Sources */,
 				0A56DD5A2948378600AFD75B /* UniversityViewModel.swift in Sources */,
+				0AE780C6295C4A6F0068C39C /* AppFlow.swift in Sources */,
+				0A90CAB0295844A100C7E4FC /* HomeTableViewCell.swift in Sources */,
 				0A56DD582948377100AFD75B /* MovieTableViewCell.swift in Sources */,
+				0A2B5733295DC79F001F2B94 /* HomeBannerCell.swift in Sources */,
 				515F9590146BEE2A0626CFF1 /* PostTableViewCell.swift in Sources */,
 				0A56DD5E29483ABC00AFD75B /* UniversityNavigator.swift in Sources */,
 				0A91626C2952E2240068A325 /* FlexiBorrowNavi.swift in Sources */,
 				0A56DD532948374300AFD75B /* UniversityViewController.swift in Sources */,
-				0A91626A2951EA920068A325 /* HomeNavigator.swift in Sources */,
+				0A91626A2951EA920068A325 /* FlexiHomeNavigator.swift in Sources */,
 				B60A97CE1FB0C17600009C51 /* EditPostNavigator.swift in Sources */,
 				0A56DD682949749A00AFD75B /* FlexiLoanHomeVC.swift in Sources */,
 				515F95CFED58045AB6B168A4 /* CreatePostViewController.swift in Sources */,
 				0A2758912949F172002B8FF5 /* BaseViewController.swift in Sources */,
 				7BA4DC961F3AEA380043DAB6 /* PostItemViewModel.swift in Sources */,
 				0A56DD6B294977CA00AFD75B /* FlexiLoanHomeViewModel.swift in Sources */,
+				0A2B572E295D7832001F2B94 /* HomeCollectionViewCell.swift in Sources */,
+				0AE780C4295C44200068C39C /* AppStepper.swift in Sources */,
+				0A2348D1295835E00084A1ED /* HomeNavigator.swift in Sources */,
+				0A2348D2295835E00084A1ED /* HomeViewController.swift in Sources */,
 				515F9625B58BCFB77F4AF678 /* CreatePostNavigator.swift in Sources */,
+				0A2B5728295D6C84001F2B94 /* HomeModel.swift in Sources */,
 				2526A7161E5A2CD30078870E /* EditPostViewController.swift in Sources */,
 				515F9850E701F4ECCC669D9B /* CreatePostViewModel.swift in Sources */,
 				515F95A32860E22D7CB9563C /* EditPostViewModel.swift in Sources */,

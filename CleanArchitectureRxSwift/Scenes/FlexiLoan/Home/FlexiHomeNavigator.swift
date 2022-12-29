@@ -14,7 +14,6 @@ import RxCocoa
 protocol HomeNaviProtocol: AnyObject {
     func toGSXHome()
     func toInputBorrow(flex: FlexiLoanModel, replaySb: PublishSubject<String>)
-    
 }
 
 class HomeNavigator: HomeNaviProtocol {
@@ -25,8 +24,7 @@ class HomeNavigator: HomeNaviProtocol {
         vc.viewModel.subject = replaySb
         navigationController.pushViewController(vc, animated: true)
     }
-    
-    
+
     private let navigationController: UINavigationController
     private let services: UseCaseProvider
     
@@ -38,7 +36,7 @@ class HomeNavigator: HomeNaviProtocol {
     
     func toGSXHome() {
         let vc = FlexiLoanHomeVC(nibName: "FlexiLoanHomeVC", bundle: .main)
-        vc.viewModel = .init(useCase: services.makePostsUseCase(), navigator: self)
+        vc.viewModel = .init(useCase: services.makePostsUseCase())
         self.navigationController.pushViewController(vc, animated: true)
     }
     

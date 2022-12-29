@@ -39,7 +39,7 @@ class FlexiBorrowViewController: BaseViewController{
     
     private func setUpBindModel() {
         self.navigationItem.hidesBackButton = true
-        var customBackButton = UIBarButtonItem(title: "Back", style: .done,
+        let customBackButton = UIBarButtonItem(title: "Back", style: .done,
                                                target: nil, action: nil)
         navigationItem.leftBarButtonItem = customBackButton
         

@@ -10,8 +10,11 @@ import Foundation
 import Domain
 import RxSwift
 import RxCocoa
+import RxFlow
+//import spm_clean
 
-final class FlexBorrowViewModel {
+final class FlexBorrowViewModel: Stepper {
+    var steps = RxRelay.PublishRelay<Step>()
     private var flexiModel: FlexiLoanModel
     public  var subject = PublishSubject<String>()
     private let navigator: FlexiBorrowNavi

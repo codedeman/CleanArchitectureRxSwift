@@ -10,15 +10,17 @@ import Foundation
 import Domain
 import RxSwift
 import RxCocoa
+import RxFlow
 
-final class FlexiHomeViewModel {
+final class FlexiHomeViewModel: Stepper {
+    var steps = PublishRelay<Step>()
     private let useCase: PostsUseCase
-    private let navigator: HomeNaviProtocol
+//    private let navigator: HomeNaviProtocol
     var sub = PublishSubject<String>()
 
-    init(useCase: PostsUseCase, navigator: HomeNaviProtocol) {
+    init(useCase: PostsUseCase) {
         self.useCase = useCase
-        self.navigator = navigator
+//        self.navigator = navigator
     }
 }
 
@@ -50,7 +52,7 @@ extension FlexiHomeViewModel: ViewModelType {
             .map {String.init("Interest @ \($0.offeredInterestRate ?? 0.0) % p.a (\($0.offeredEIR ?? 0.0) p.a")}
             .asDriver()
         
-        var available = flexiModel
+        let available = flexiModel
             .map {
                 String.init("$S \($0.availableLOC?.val ?? 0.0)")}
             .asDriver()
@@ -61,10 +63,13 @@ extension FlexiHomeViewModel: ViewModelType {
             .browerTrigger
             .withLatestFrom(objSelect).do { [weak self] obj in
                 guard let wSelf = self else {return }
-                wSelf.navigator.toInputBorrow(flex: obj, replaySb: wSelf.sub)
+//                wSelf.navigator.toInputBorrow(flex: obj, replaySb: wSelf.sub)
         }
         
-        return Output.init(flexiModel: flexiModel, selectedBorrow: borrowSelected, description: description , available: available)
+        return Output.init(flexiModel: flexiModel,
+                           selectedBorrow: borrowSelected,
+                           description: description ,
+                           available: available)
     }
     
 }
