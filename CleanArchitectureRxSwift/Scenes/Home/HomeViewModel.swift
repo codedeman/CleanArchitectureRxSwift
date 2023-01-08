@@ -14,61 +14,56 @@ import RxCocoa
 import RxFlow
 class HomeViewModel: Stepper {
     let steps = PublishRelay<Step>()
-
+    private var userCase: HomeUseCase
     var initialStep: Step {
         return AppStep.home
+    }
+
+    init(userCase: HomeUseCase) {
+        self.userCase = userCase
     }
 
 }
 
 extension HomeViewModel: ViewModelType {
+
     func transform(input: Input) -> Output {
+        let activityIndicator = ActivityIndicator()
+        let errorTracker = ErrorTracker()
+
+        let loadTriger = input
+            .loadTrigger
+            .flatMapLatest {
+                return self.userCase
+                    .getFilm()
+                    .trackActivity(activityIndicator)
+                    .trackError(errorTracker)
+                    .asDriverOnErrorJustComplete()
+            }.asDriver(onErrorJustReturn: nil)
+
 
         let navigate = input.paydue
             .do(onNext: { [weak  self] in
                 guard let wSelf = self else {return}
-                wSelf.steps.accept(AppStep.paydue)
+                wSelf.steps.accept(AppStep.loan)
             })
-        let sections = [
-            // section #1
-            HomeSectionModel(header: "For you today",
-                             items: [
-                                Animal(name: "Cats",
-                                       list: [
-                                        SubItems.init(title: "Repay your GXS Flexilon", subTitle: "S$512.50 due in 7 days"),
-                                        SubItems.init(title: "Repay your GXS Flexilon", subTitle: "S$512.50 due in 7 days"),
-                                        SubItems.init(title: "Repay your GXS Flexilon", subTitle: "S$512.50 due in 7 days"),
-                                        SubItems.init(title: "Repay your GXS Flexilon", subTitle: "S$512.50 due in 7 days")
-                                       ],
-                                       subItem: SubItems.init(title: "GSX Felexi Loan", subTitle: "S$512.50 due in 7 days")),
 
-                             ]),
-            // section #2
-            HomeSectionModel(header: "GXS Flexi Loan",
-                             items: [
-                                Animal(name: "Sparrows", subItem: SubItems.init(title: "GSX Felexi Loan", subTitle: "S$512.50 due in 7 days")),
-                             ]),
-
-            HomeSectionModel(header: "Your might be interested in ",
-                             items: [
-                                Animal(name: "Sparrows", subItem: SubItems.init(title: "GSX Saving account", subTitle: "S$512.50 due in 7 days")),
-                             ]
-                            )
-            ]
-
-        let obserable: Observable<[HomeSectionModel]> = Observable.just(sections)
-        return Output.init(dataSource: obserable.asDriverOnErrorJustComplete(), paydueNavigate: navigate.asDriverOnErrorJustComplete())
+        return Output.init(
+            paydueNavigate: navigate.asDriverOnErrorJustComplete(),
+            loadTrigger: loadTriger.asDriver()
+        )
 
     }
-
 
     struct Input {
         let paydue: Observable<Void>
+        let loadTrigger: Driver<Void>
     }
 
     struct Output {
-        let dataSource: Driver<[HomeSectionModel]>
         let paydueNavigate: Driver<Void>
+        let loadTrigger: Driver<Home?>
     }
+
 }
 

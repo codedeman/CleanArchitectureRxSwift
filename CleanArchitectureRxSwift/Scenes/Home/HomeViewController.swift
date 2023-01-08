@@ -13,11 +13,13 @@ import RxFlow
 import RxSwift
 import RxCocoa
 import RxDataSources
+import Domain
 
 class HomeViewController: BaseViewController {
+    
 
     private let bag = DisposeBag()
-    var viewModel = HomeViewModel()
+    private var viewModel: HomeViewModel
 
     // MARK: IBOutlet
     let naviView: HomNaviView = {
@@ -26,31 +28,27 @@ class HomeViewController: BaseViewController {
         return navi
     }()
 
+    private var listFilm: [HomeData] = []
+
     private let tableView: UITableView = {
         let tableview = UITableView(frame: .zero, style: .grouped)
         tableview.backgroundColor = .clear
         return tableview
     }()
 
-   private let dataSource = RxTableViewSectionedReloadDataSource<HomeSectionModel> (
-        // cell
-        configureCell: { dataSource, tableView, indexPath, item in
-            if indexPath.section == 0 {
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: "HomeBannerCell", for: indexPath) as? HomeBannerCell else {return UITableViewCell()}
-                if let list = item.list {
-                    cell.bindingData(data: list)
-                }
-                return cell
-            } else {
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: "HomeTableViewCell", for: indexPath) as? HomeTableViewCell else {return UITableViewCell()}
-                let data = item.subItem
-                cell.binding(items: data)
-                return cell
-            }
-        }
-    )
+    private lazy var collectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
+
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(HomeTopBannerCollectionViewCell.self, forCellWithReuseIdentifier: HomeTopBannerCollectionViewCell.cellIdentifier)
+        collectionView.register(FoodCategoryCollectionViewCell.self, forCellWithReuseIdentifier: FoodCategoryCollectionViewCell.cellIdentifier)
+        collectionView.register(RestaurantListCollectionViewCell.self, forCellWithReuseIdentifier: RestaurantListCollectionViewCell.cellIdentifier)
 
 
+        return collectionView
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,71 +63,114 @@ class HomeViewController: BaseViewController {
 
     // MARK: SetupUI
     private func setupView() {
-        self.view.addSubview(tableView)
-        self.tableView.register(HomeTableViewCell.self, forCellReuseIdentifier: HomeTableViewCell.identifier)
-        self.tableView.register(HomeBannerCell.self, forCellReuseIdentifier: HomeBannerCell.identifier)
-        self.view.addSubview(naviView)
-        naviView.snp.makeConstraints { make in
-            make.top.equalTo(self.view.safeAreaLayoutGuide)
-            make.trailing.equalTo(self.view)
-            make.leading.equalTo(self.view)
-            make.height.equalTo(80)
-        }
+        self.view.addSubview(collectionView)
+        self.collectionView.register(HomeTopBannerCollectionViewCell.self, forCellWithReuseIdentifier: HomeTopBannerCollectionViewCell.cellIdentifier)
 
-        tableView.snp.makeConstraints { make in
-            make.leading.equalTo(self.view)
-            make.trailing.equalTo(self.view)
-            make.top.equalTo(self.naviView.snp_bottomMargin)
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide)
+        collectionView.snp.makeConstraints { make  in
+            make.leading.trailing.equalToSuperview()
+            make.bottom.top.equalToSuperview()
         }
-
-        tableView.estimatedRowHeight = 300
-        self.tableView.rowHeight = UITableView.automaticDimension
+        configureCompositionalLayout()
 
     }
+    
+    init(viewModel: HomeViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: "HomeViewController", bundle: .main)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
 
     private func setUpViewModel() {
-        let input = HomeViewModel.Input(paydue: tableView.rx.itemSelected.mapToVoid().asObservable())
+        let viewWillAppear = rx.sentMessage(#selector(UIViewController.viewWillAppear(_:)))
+            .mapToVoid().asDriverOnErrorJustComplete()
+
+        let input = HomeViewModel.Input(
+            paydue: tableView.rx.itemSelected.mapToVoid().asObservable(),
+            loadTrigger: viewWillAppear.asDriver()
+        )
         let output = self.viewModel.transform(input: input)
-        output.dataSource
-            .asObservable()
-            .bind(to: tableView.rx.items(dataSource: dataSource))
-            .disposed(by: bag)
-        tableView
-          .rx.setDelegate(self)
-          .disposed(by: bag)
+
+        output.loadTrigger.drive(onNext: { [weak self] home in
+            guard let list = home?.listFilms else {return}
+            self?.listFilm = list
+            self?.collectionView.reloadSections(IndexSet.init(integer: 0))
+        }).disposed(by: bag)
 
         output.paydueNavigate
             .drive().disposed(by: bag)
+
     }
     
     // MARK: IBAction
 }
 
-extension HomeViewController: UITableViewDelegate {
 
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView: HomeHeader = HomeHeader(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 30))
-        let data = dataSource[section].header
-        headerView.binding(text: data)
-        return headerView
-    }
+extension HomeViewController {
 
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 0 {
-            return 200
-        } else {
-            return UITableView.automaticDimension
+    func configureCompositionalLayout(){
+        let layout = UICollectionViewCompositionalLayout {sectionIndex,enviroment in
+            switch sectionIndex {
+            case 0 :
+                return AppLayouts.shared.foodBannerSection()
+            case 1 :
+                return AppLayouts.shared.foodCategorySection()
+            case 2 :
+                return AppLayouts.shared.restaurantsListSection()
+            default:
+                return AppLayouts.shared.foodBannerSection()
+
+//                return AppLayouts.shared.VeganSectionLayout()
+            }
         }
-    }
-
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 30
-    }
-
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 0.001
+//        layout.register(SectionDecorationView.self, forDecorationViewOfKind: "SectionBackground")
+        self.collectionView.setCollectionViewLayout(layout, animated: true)
     }
 }
 
+extension HomeViewController: UICollectionViewDelegate {
 
+}
+
+extension HomeViewController: UICollectionViewDataSource {
+
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 4
+    }
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+
+        switch section {
+        case 0:
+            return listFilm.count
+        case 1:
+            return foodCategoryMockData.count
+        case 2:
+            return restaurantListMockData.count
+        default:
+            return 10
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        switch indexPath.section {
+        case 0:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeTopBannerCollectionViewCell.cellIdentifier, for: indexPath) as? HomeTopBannerCollectionViewCell  else {return UICollectionViewCell()}
+             let data = listFilm[indexPath.row]
+            cell.binding(data: data)
+            return cell
+        case 1:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FoodCategoryCollectionViewCell.cellIdentifier, for: indexPath) as? FoodCategoryCollectionViewCell else {return UICollectionViewCell()}
+            cell.cellData = foodCategoryMockData[indexPath.row]
+            return cell
+        default:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RestaurantListCollectionViewCell.cellIdentifier, for: indexPath) as? RestaurantListCollectionViewCell  else {return UICollectionViewCell()}
+            cell.cellData = restaurantListMockData[indexPath.row]
+            return cell
+        }
+    }
+
+
+}

@@ -44,4 +44,9 @@ final class NetworkProvider {
         let network = Network<User>(apiEndpoint)
         return UsersNetwork(network: network)
     }
+
+    public func makeHomeUseCase() -> HomeNetWork {
+        let network = Network<Home>("")
+        return HomeNetWork(network: network)
+    }
 }

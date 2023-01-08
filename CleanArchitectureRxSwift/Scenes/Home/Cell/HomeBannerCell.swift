@@ -1,125 +1,76 @@
 //
-//  HomeBannerCell.swift
-//  CleanArchitectureRxSwift
+//  FoodTopBannerCollectionViewCell.swift
+//  Sway
 //
-//  Created by Kevin on 12/29/22.
-//  Copyright © 2022 sergdort. All rights reserved.
+//  Created by Omar Ahmed on 13/06/2022.
 //
-
 
 import UIKit
-import SnapKit
-import RxSwift
+import Domain
 
-class HomeBannerCell: UITableViewCell {
+class HomeTopBannerCollectionViewCell: UICollectionViewCell {
 
-    static let identifier = "HomeBannerCell"
+    //MARK: Properities
 
-    private let collectionView: UICollectionView = {
-        let viewLayout = UICollectionViewFlowLayout()
-        viewLayout.itemSize = CGSize(width: UIScreen.main.bounds.width-15/2, height: 200)
-        viewLayout.scrollDirection = .horizontal
-        let collectionView = UICollectionView(frame: .infinite, collectionViewLayout: viewLayout)
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.bounces = true
-        collectionView.backgroundColor = .clear
-        return collectionView
-    }()
+    static let cellIdentifier = "HomeTopBannerCollectionViewCell"
 
-    private let viewIcLeft: UIView = {
-        let v = UIView()
-        return v
-    }()
-
-    private let ivIconLeft: UIImageView = {
-        let iv = UIImageView()
-        iv.image = UIImage(named: "1.jpg")
-        return iv
-    }()
-
-
-    private let pageControl: UIPageControl = {
-        let page = UIPageControl()
-        page.backgroundColor = .clear
-        return page
-    }()
-
-    private let list = PublishSubject<[SubItems]> ()
-    private let disposeBag = DisposeBag()
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.selectionStyle = .none
-        self.backgroundColor = .clear
-        self.setUpLayout()
-        self.setUpObser()
-    }
-
-    private func setUpLayout() {
-        self.contentView.addSubview(collectionView)
-        self.addSubview(pageControl)
-        self.collectionView.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: HomeCollectionViewCell.identifier)
-        self.collectionView.rx.setDelegate(self).disposed(by: disposeBag)
-        collectionView.snp.makeConstraints { make in
-            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(5)
-            make.trailing.equalTo(self.snp.trailing).offset(-5)
-            make.leading.equalTo(self.snp.leading).offset(5)
-            make.height.equalTo(200)
+    var cellData : HomeTopBannerModel? {
+        didSet {
+            guard let cellData = cellData else {return}
+            bannerImage.image = UIImage(named: cellData.image)
         }
-
-        pageControl.snp.makeConstraints { make in
-            make.bottom.greaterThanOrEqualTo(self.snp.bottom).offset(0)
-            make.centerX.equalTo(self.snp.centerX).offset(0)
-            make.top.equalTo(self.collectionView.snp_bottomMargin).offset(0)
-        }
-
     }
 
-    private func setUpObser() {
-        list.asObserver().bind(to:  collectionView.rx.items) {(collection,index, model) in
-            let indexPath = IndexPath(item: index, section: 0)
-             guard let cell = collection.dequeueReusableCell(withReuseIdentifier: HomeCollectionViewCell.identifier, for: indexPath) as? HomeCollectionViewCell else {return UICollectionViewCell()}
-            cell.binding(data: model)
-            return cell
-        }.disposed(by: disposeBag)
+    lazy var shadowView: UIView = {
+        let shadowView = UIView()
+        shadowView.translatesAutoresizingMaskIntoConstraints = false
+        shadowView.backgroundColor = .clear
+        shadowView.layer.cornerRadius = 8
+        shadowView.layer.borderWidth = 0.6
+        shadowView.layer.borderColor = UIColor.gray.withAlphaComponent(0.3).cgColor
+        shadowView.layer.shadowColor = UIColor.label.withAlphaComponent(0.4).cgColor
+        shadowView.layer.shadowOffset = CGSize(width: 0, height: 4)
+        shadowView.layer.shadowOpacity = 1
+        shadowView.layer.shadowRadius = 5
+        return shadowView
+    }()
+
+    let bannerImage : UIImageView = {
+        let bI = UIImageView()
+        bI.translatesAutoresizingMaskIntoConstraints = false
+        bI.backgroundColor = .systemBackground
+        bI.clipsToBounds = true
+        bI.contentMode = .scaleAspectFill
+        bI.layer.cornerRadius = 8
+        return bI
+    }()
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configure()
     }
 
-    func bindingData(data: [SubItems]) {
-        list.onNext(data)
-        self.pageControl.numberOfPages = data.count
+    func binding(data: HomeData) {
+        let url = data.filmUrl
+        URLSession.shared.dataTask(with: URLRequest(url: URL(string: url)!)) { [weak self] data, response, error in
+            if let data = data {
+                DispatchQueue.main.async {
+                    self?.bannerImage.image = UIImage(data: data)
+                }
+            }
+        }.resume()
     }
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-//        collectionView.alwaysBounceHorizontal = true
-//        collectionView.isScrollEnabled = true
-//        collectionView.isUserInteractionEnabled = true
-        collectionView.bounces = true
+    func configure(){
+        contentView.backgroundColor = .clear
+        addSubview(shadowView)
+        shadowView.addSubview(bannerImage)
+        shadowView.setUp(to: self)
+        bannerImage.setUp(to: shadowView)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-    }
-
-}
-
-extension HomeBannerCell: UICollectionViewDelegate {
-
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let offSet = scrollView.contentOffset.x
-        let width = scrollView.frame.width
-        let horizontalCenter = width / 2
-        pageControl.currentPage = Int(offSet + horizontalCenter) / Int(width)
     }
 
 }

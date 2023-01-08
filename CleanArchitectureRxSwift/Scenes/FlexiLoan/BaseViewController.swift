@@ -20,15 +20,13 @@ class BaseViewController: UIViewController {
         super.viewDidLayoutSubviews()
         self.setUpBackground()
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+    }
     
     private func setUpBackground() {
-        let gradient: CAGradientLayer = CAGradientLayer()
-        gradient.colors = [UIColor.init(hexString: "#3F108C").cgColor, UIColor.black.cgColor]
-        gradient.locations = [0.0 , 1.0]
-        gradient.startPoint = CGPoint(x: 0.5, y: 0.0)
-        gradient.endPoint = CGPoint(x: 0.5, y: 1.0)
-        gradient.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: self.view.frame.size.height)
-        self.view.layer.insertSublayer(gradient, at: 0)
+      
     }
 }
 

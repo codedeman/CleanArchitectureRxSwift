@@ -13,7 +13,7 @@ class HomeTableViewCell: UITableViewCell {
     static let identifier = "HomeTableViewCell"
     private let viewContent: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(hexString: "#272037")
+//        view.backgroundColor = UIColor(hexString: "#272037")
         return view
     }()
 
@@ -53,7 +53,7 @@ class HomeTableViewCell: UITableViewCell {
     private let lblTitle: UILabel = {
         let lbl = UILabel()
         lbl.textColor = .white
-        lbl.text = "GXS repay your rxs repay"
+        lbl.text = " repay your  repay"
         lbl.font = UIFont.systemFont(ofSize: 18, weight: .medium)
         lbl.numberOfLines = 0
         return lbl

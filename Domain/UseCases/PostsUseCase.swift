@@ -8,7 +8,6 @@ public protocol PostsUseCase {
     func getList(apiRequest: APIRequest) -> Observable<[UniversityModel]>
     func getFlexiLoan() -> Observable<FlexiLoanModel>
 }
-
 extension PostsUseCase {
     func getList(apiRequest: APIRequest) -> Observable<[UniversityModel]> {
         return .just([])

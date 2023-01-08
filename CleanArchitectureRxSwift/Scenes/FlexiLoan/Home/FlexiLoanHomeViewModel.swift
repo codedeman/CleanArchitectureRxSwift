@@ -15,12 +15,12 @@ import RxFlow
 final class FlexiHomeViewModel: Stepper {
     var steps = PublishRelay<Step>()
     private let useCase: PostsUseCase
-//    private let navigator: HomeNaviProtocol
     var sub = PublishSubject<String>()
 
-    init(useCase: PostsUseCase) {
+    init(
+        useCase: PostsUseCase
+    ) {
         self.useCase = useCase
-//        self.navigator = navigator
     }
 }
 
@@ -62,8 +62,9 @@ extension FlexiHomeViewModel: ViewModelType {
         let borrowSelected = input
             .browerTrigger
             .withLatestFrom(objSelect).do { [weak self] obj in
-                guard let wSelf = self else {return }
-//                wSelf.navigator.toInputBorrow(flex: obj, replaySb: wSelf.sub)
+                guard let self = self else {return }
+                self.steps.accept(AppStep.loan)
+
         }
         
         return Output.init(flexiModel: flexiModel,

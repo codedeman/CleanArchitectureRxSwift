@@ -24,27 +24,13 @@ class FlexiLoanHomeVC: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setUpBinding()
-        self.navigationItem.title = "GSX FlexiLoan"
+        self.navigationItem.title = "FlexiLoan"
         self.vBackground.backgroundColor = .clear
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-//        viewModel.sub.asObservable() = Observable<String>.just("KK")
-//
-//        viewModel.sub.asObservable().subscribe { event in
-//            switch event {
-//            case .next(let text):
-//                self.lblAvailable.text = text
-//                self.avoidReload = true
-//            case .error(_):
-//                break
-//            case .completed:
-//                break
-//
-//            }
-//        }
 
     }
     

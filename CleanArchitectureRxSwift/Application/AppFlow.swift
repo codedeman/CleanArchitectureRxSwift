@@ -17,6 +17,7 @@ class AppFlow: Flow {
     }
 
     private let services: UseCaseProvider
+    private let services2: HomeUseCaseProvider
 
     private lazy var rootViewController: UINavigationController = {
         let vc = UINavigationController()
@@ -26,8 +27,12 @@ class AppFlow: Flow {
 
     // MARK: - Init
 
-    init(services: UseCaseProvider) {
+    init(
+        services: UseCaseProvider,
+        services2: HomeUseCaseProvider
+    ) {
         self.services = services
+        self.services2 = services2
     }
 
     deinit {
@@ -39,22 +44,41 @@ class AppFlow: Flow {
         switch step {
         case .home: return navigateHome()
         case .paydue: return navigateFlexiLoan()
+        case .loan: return navigateLoan()
         }
     }
+
+    func  adapt(step: Step) -> Single<Step> {
+        guard let step = step as? AppStep else { return .never() }
+        return .just(step)
+    }
+
+
 }
 
 extension AppFlow {
 
     func navigateHome() -> FlowContributors {
-        let vc = HomeViewController(nibName: "HomeViewController", bundle: .main)
-        vc.viewModel = .init()
+        let viewModel = HomeViewModel.init(userCase: services2.makeUseCase())
+
+        let vc = HomeViewController(viewModel: viewModel)
+
         self.rootViewController.pushViewController(vc, animated: true)
-        return .one(flowContributor: .contribute(withNextPresentable: vc, withNextStepper: vc.viewModel))
+        return .one(flowContributor: .contribute(withNextPresentable: vc,
+                                                 withNextStepper: viewModel))
     }
 
     func navigateFlexiLoan() -> FlowContributors {
         let vc = FlexiLoanHomeVC(nibName: "FlexiLoanHomeVC", bundle: .main)
         vc.viewModel = .init(useCase: services.makePostsUseCase())
+        self.rootViewController.pushViewController(vc, animated: false)
+        return .one(flowContributor: .contribute(withNextPresentable: vc,
+                                                 withNextStepper: vc.viewModel))
+    }
+
+    func navigateLoan() -> FlowContributors {
+        let vc = LoansViewController(nibName: "LoansViewController", bundle: .main)
+        vc.viewModel = .init()
         self.rootViewController.pushViewController(vc, animated: false)
         return .one(flowContributor: .contribute(withNextPresentable: vc, withNextStepper: vc.viewModel))
     }

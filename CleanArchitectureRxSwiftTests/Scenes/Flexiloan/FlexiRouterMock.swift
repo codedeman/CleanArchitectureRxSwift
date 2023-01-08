@@ -11,6 +11,10 @@ import Foundation
 import Domain
 
 class FlexiRouterMock: HomeNaviProtocol {
+    func toInputBorrow(flex: Domain.FlexiLoanModel, replaySb: RxSwift.PublishSubject<String>) {
+        <#code#>
+    }
+
     
     var toBorrow_Called = false
     var toBorrow_ReceivedArguments: FlexiLoanModel?

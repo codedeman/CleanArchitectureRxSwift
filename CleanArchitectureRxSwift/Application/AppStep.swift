@@ -11,5 +11,6 @@ import RxFlow
 enum AppStep: Step {
     case home
     case paydue
+    case loan
 }
 
